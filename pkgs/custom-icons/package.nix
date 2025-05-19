@@ -9,7 +9,7 @@ let
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.1";
+  version = "0.1-1";
   src = src;
   installPhase = ''
     runHook preInstall
