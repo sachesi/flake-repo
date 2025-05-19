@@ -28,12 +28,14 @@
           inherit pkgs rustToolchain;
         };
         custom-icons = pkgs.callPackage ./pkgs/custom-icons/package.nix { };
+        apparmor-d = pkgs.callPackage ./pkgs/apparmor-d/package.nix { };
       in
       {
         packages = {
           default = desktop-thumbnailer;
           desktop-thumbnailer = desktop-thumbnailer;
           custom-icons = custom-icons;
+          apparmor-d = apparmor-d;
         };
 
         customPackages = {
@@ -48,6 +50,10 @@
           custom-icons = flake-utils.lib.mkApp {
             drv = custom-icons;
             name = "custom-icons";
+          };
+          apparmor-d = flake-utils.lib.mkApp {
+            drv = apparmor-d;
+            name = "apparmor-d";
           };
         };
       }

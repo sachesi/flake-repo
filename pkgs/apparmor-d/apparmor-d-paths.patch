@@ -1,0 +1,18 @@
+--- a/apparmor.d/tunables/multiarch.d/system
++++ b/apparmor.d/tunables/multiarch.d/system
+
+@@ -14,10 +14,10 @@
+ @{MOUNTS}=@{MOUNTDIRS}/*/ @{run}/user/@{uid}/gvfs/
+ 
+ # Common places for binaries and libraries across distributions
+-@{bin}=/{,usr/}bin
+-@{sbin}=/{,usr/}sbin     #aa:only apt zypper
+-@{sbin}=/{,usr/}{,s}bin  #aa:only pacman
+-@{lib}=/{,usr/}lib{,exec,32,64}
+++@{base_paths} = /nix/store/* /etc/profiles/per-user/* /run/current-system/sw
+++@{bin}=@{base_paths}/bin
+++@{sbin}=@{base_paths}/sbin
+++@{lib}=@{base_paths}/lib @{base_paths}/lib32 @{base_paths}/lib64 @{base_paths}/libexec
+ 
+ # Common places for temporary files
+ @{tmp}=/tmp/ /tmp/user/@{uid}/
