@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "apparmor-d";
-  version = "unstable-2025-05-119";
+  version = "unstable-2025-05-19";
 
   src = fetchFromGitHub {
     rev = "86afef4920601f4e8babdfaf15d232ac5aed2979";
