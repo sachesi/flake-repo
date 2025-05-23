@@ -3,13 +3,13 @@
 let
   src = pkgs.fetchgit {
     url = "ssh://git@github.com:sachesi/custom-icons.git";
-    rev = "1q0pl0acfxs25yphd96hjh3cmbai0dfggr2z57dchn7c28srjzqs";
-    sha256 = "sha256-Gn+ZNRLsWMjaKV/k91wDUa3KBpTQpAavL0J3xxSgF+A=";
+    rev = "11dc70hin9xdgvi0v3qby2lrl1bpgig4mmf64hzc291q5gpsnfna";
+    sha256 = "sha256-yjqr7ys4JME+JMbVSl58dwWaqfALjw3ifq0nGyE4rIU=";
   };
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.1-1";
+  version = "0.1-2";
   src = src;
   installPhase = ''
     runHook preInstall
