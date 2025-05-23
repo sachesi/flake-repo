@@ -1,0 +1,15 @@
+diff --git a/apparmor.d/tunables/multiarch.d/profiles b/apparmor.d/tunables/multiarch.d/profiles
+index 92ab19fc..79b2363d 100644
+--- a/apparmor.d/tunables/multiarch.d/profiles
++++ b/apparmor.d/tunables/multiarch.d/profiles
+@@ -19,10 +19,6 @@
+ @{p_dbus_system}={dbus-system,dbus-system//&unconfined}
+ @{p_dbus_session}={dbus-session,dbus-session//&unconfined}
+ 
+-#aa:exclude apparmor4.1
+-@{p_dbus_system}=dbus-system
+-@{p_dbus_session}=dbus-session
+-
+ @{p_at_spi2_registryd}=at-spi2-registryd
+ @{p_colord}=colord
+ @{p_gnome_shell}=gnome-shell

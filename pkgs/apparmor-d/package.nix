@@ -16,6 +16,7 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./apparmor-d-paths.patch
+    ./tunables-multiarch_d-profiles.patch
   ];
 
   installPhase = ''
