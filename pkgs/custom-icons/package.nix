@@ -3,13 +3,13 @@
 let
   src = pkgs.fetchgit {
     url = "ssh://git@github.com:sachesi/custom-icons.git";
-    rev = "02iz2436ffvsjnp7masl8g9f5mkjply83260k5xa92n8wl4bcwb7";
-    sha256 = "sha256-Z3G2COXIiqR6mcCIgTy9ctbi0kNUq3qulXo7ZwYRPwo=";
+    rev = "98a0d77abd2543e92f3d691456815b3818970159";
+    sha256 = "sha256-AxppghBK0jqtH4IekwZbwVRqvciO2KgSlXMBUq1MP/o=";
   };
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.1-4";
+  version = "0.1-7";
   src = src;
   installPhase = ''
     runHook preInstall
@@ -21,7 +21,7 @@ pkgs.stdenv.mkDerivation {
   '';
 
   meta = with pkgs.lib; {
-    description = "Custom app icons for my apps";
+    description = "Custom icons for my apps";
     homepage = "https://github.com/sachesi/custom-icons/";
     license = pkgs.lib.licenses.free;
     maintainers = [
