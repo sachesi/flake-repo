@@ -4,13 +4,13 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "sachesi";
     repo = "custom-icons";
-    rev = "bef2f3ab03b91e84f65e414fb4a5f2941abb02e8";
-    sha256 = "sha256-HnOerW9QLmDhRG580tx2AvKSeOGXx2+OxqQPjW1i1P0=";
+    rev = "85056548399bdb18cb743d8fcd111ee9f0acd721";
+    sha256 = "sha256-1T7MBo/MTag4h3VXfxK+mehqhbM+yWR8aVuF9+SOQLc=";
   };
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.2-6";
+  version = "0.2-8";
   src = src;
   installPhase = ''
     runHook preInstall
