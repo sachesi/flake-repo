@@ -1,30 +1,35 @@
 { pkgs, ... }:
 
 let
-  src = pkgs.fetchFromGitHub {
-    owner = "sachesi";
-    repo = "custom-icons";
-    rev = "85056548399bdb18cb743d8fcd111ee9f0acd721";
-    sha256 = "sha256-1T7MBo/MTag4h3VXfxK+mehqhbM+yWR8aVuF9+SOQLc=";
+  lib = pkgs.lib;
+
+  src = fetchGit {
+    url = "git@github.com:sachesi/custom-icons.git";
+    ref = "main";
+    rev = "59d0a45a5b3c18ac08116c8f0ed0d7fc4da375e3";
   };
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.2-8";
-  src = src;
+  version = "0.2-12";
+
+  inherit src;
+
+  dontBuild = true;
+
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/share/icons/hicolor/256x256/apps
-    cp -r icons/hicolor/256x256/apps/* $out/share/icons/hicolor/256x256/apps/
+    install -d "$out/share/icons/hicolor/256x256/apps"
+    cp -r icons/hicolor/256x256/apps/* "$out/share/icons/hicolor/256x256/apps/"
 
     runHook postInstall
   '';
 
-  meta = with pkgs.lib; {
+  meta = with lib; {
     description = "Custom icons for my apps";
     homepage = "https://github.com/sachesi/custom-icons/";
-    license = pkgs.lib.licenses.free;
+    license = licenses.free;
     maintainers = [
       {
         name = "sachesi x";
