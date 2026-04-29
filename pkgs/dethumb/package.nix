@@ -12,7 +12,7 @@ pkgs.rustPlatform.buildRustPackage rec {
     repo = "dethumb";
     rev = "v${version}";
 
-    hash = lib.fakeHash;
+    hash = "sha256-pVwTUQ+oLrp+fM3FeQgJyChL1UvoGQbj8N/PIHyfkko=";
   };
 
   cargoLock = {

@@ -23,15 +23,15 @@
           inherit system;
           overlays = overlays;
         };
-        desktop-thumbnailer = pkgs.callPackage ./pkgs/desktop-thumbnailer/package.nix { };
+        dethumb = pkgs.callPackage ./pkgs/dethumb/package.nix { };
         custom-icons = pkgs.callPackage ./pkgs/custom-icons/package.nix { };
         libre-menu-editor = pkgs.callPackage ./pkgs/libre-menu-editor/package.nix { };
 
       in
       {
         packages = {
-          default = desktop-thumbnailer;
-          desktop-thumbnailer = desktop-thumbnailer;
+          default = dethumb;
+          dethumb = dethumb;
           custom-icons = custom-icons;
           libre-menu-editor = libre-menu-editor;
 
@@ -39,12 +39,12 @@
 
         customPackages = {
           default = flake-utils.lib.mkApp {
-            drv = desktop-thumbnailer;
-            name = "desktop-thumbnailer";
+            drv = dethumb;
+            name = "dethumb";
           };
-          desktop-thumbnailer = flake-utils.lib.mkApp {
-            drv = desktop-thumbnailer;
-            name = "desktop-thumbnailer";
+          dethumb = flake-utils.lib.mkApp {
+            drv = dethumb;
+            name = "dethumb";
           };
           custom-icons = flake-utils.lib.mkApp {
             drv = custom-icons;
