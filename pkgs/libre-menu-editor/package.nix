@@ -1,69 +1,78 @@
 { pkgs, ... }:
 
 let
+  lib = pkgs.lib;
+
+  appName = "libre-menu-editor";
+
   python = pkgs.python3.withPackages (
     ps: with ps; [
       pygobject3
     ]
   );
-
-  appName = "libre-menu-editor";
 in
-
 pkgs.stdenv.mkDerivation rec {
   pname = appName;
-  version = "1.10.1";
+  version = "1.10.2";
 
-  src = pkgs.fetchgit {
-    url = "https://codeberg.org/libre-menu-editor/libre-menu-editor.git";
-    rev = "a2fb9a18e39ce38cf93af5cb32758c591e715c9c";
-    sha256 = "sha256-B/f6VQGm4q+LNFEW0tJP8vVeCj3MUCQxWyZsKpa3GK4=";
+  src = pkgs.fetchFromGitea {
+    domain = "codeberg.org";
+    owner = "libre-menu-editor";
+    repo = "libre-menu-editor";
+    rev = "v${version}";
+
+    hash = "sha256-qY7td2qZIkSTKFkSZkarjxGN3MJ0wg1IQkXoXFwFOJ4=";
   };
 
   dontBuild = true;
+  dontWrapGApps = true;
 
-  nativeBuildInputs = [
-    pkgs.makeWrapper
-    pkgs.wrapGAppsHook4
+  nativeBuildInputs = with pkgs; [
+    makeWrapper
+    wrapGAppsHook4
   ];
 
-  buildInputs = [
+  buildInputs = with pkgs; [
     python
-    pkgs.gtk4
-    pkgs.libadwaita
-    pkgs.gobject-introspection
-    pkgs.xdg-utils
+    gtk4
+    libadwaita
+    glib
+    gdk-pixbuf
+    gobject-introspection
+    xdg-utils
   ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    mkdir -p $out/share
-    mkdir -p $out/share/${appName}
+    runHook preInstall
 
-    # Copy the Python application files
-    cp -r ${appName}/* $out/share/${appName}/
+    mkdir -p "$out/bin"
+    mkdir -p "$out/share/${appName}"
 
-    # Copy binary files
-    cp export/bin/${appName} $out/bin/
-    chmod +x $out/bin/${appName}
+    cp -r ${appName}/* "$out/share/${appName}/"
+    cp -r export/share/* "$out/share/"
 
-    # Copy share files
-    cp -r export/share/* $out/share/
-
-    # Create a wrapper script
-    makeWrapper ${python.interpreter} $out/bin/${appName} \
+    makeWrapper ${python.interpreter} "$out/bin/${appName}" \
       --add-flags "$out/share/${appName}/main.py" \
       --set PYTHONPATH "$out/share/${appName}:${python}/${python.sitePackages}" \
-      --prefix GI_TYPELIB_PATH : "${pkgs.gtk4}/lib/girepository-1.0" \
-      --prefix GI_TYPELIB_PATH : "${pkgs.libadwaita}/lib/girepository-1.0" \
-      --prefix GI_TYPELIB_PATH : "${pkgs.glib}/lib/girepository-1.0" \
-      --prefix PATH : "${pkgs.xdg-utils}/bin"
+      --prefix PATH : "${lib.makeBinPath [ pkgs.xdg-utils ]}" \
+      --prefix GI_TYPELIB_PATH : "${
+        lib.makeSearchPath "lib/girepository-1.0" [
+          pkgs.gtk4
+          pkgs.libadwaita
+          pkgs.glib
+          pkgs.gdk-pixbuf
+        ]
+      }" \
+      "''${gappsWrapperArgs[@]}"
+
+    runHook postInstall
   '';
 
-  meta = with pkgs.lib; {
+  meta = with lib; {
     description = "GNOME menu editor written in Python using GTK4 and libadwaita";
     homepage = "https://codeberg.org/libre-menu-editor/libre-menu-editor";
     license = licenses.gpl3Plus;
     platforms = platforms.linux;
+    mainProgram = appName;
   };
 }
