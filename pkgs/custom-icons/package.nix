@@ -6,12 +6,12 @@ let
   src = fetchGit {
     url = "git@github.com:sachesi/custom-icons.git";
     ref = "main";
-    rev = "59d0a45a5b3c18ac08116c8f0ed0d7fc4da375e3";
+    rev = "08d3b696c84a591e4f198152e5cd8f67ab383786";
   };
 in
 pkgs.stdenv.mkDerivation {
   pname = "custom-icons";
-  version = "0.2-15";
+  version = "0.2-16";
 
   inherit src;
 
