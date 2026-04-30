@@ -57,6 +57,11 @@ pkgs.symlinkJoin {
   ];
 
   postBuild = ''
+    rm -f \
+      "$out/bin/python" \
+      "$out/bin/python3" \
+      "$out/bin/python3.13"
+
     wrapProgram "$out/bin/serena" \
       --prefix PATH : ${lib.makeBinPath [
         pkgs.git
