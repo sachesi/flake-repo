@@ -5,10 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    uv2nix.url = "github:pyproject-nix/uv2nix";
+    pyproject-nix.url = "github:pyproject-nix/pyproject.nix";
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs";
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       flake-utils,
       rust-overlay,
@@ -29,6 +32,10 @@
         custom-icons = pkgs.callPackage ./pkgs/custom-icons/package.nix { };
         libre-menu-editor = pkgs.callPackage ./pkgs/libre-menu-editor/package.nix { };
         protonupd = pkgs.callPackage ./pkgs/protonupd/package.nix { };
+        context-mode = pkgs.callPackage ./pkgs/context-mode/package.nix { };
+        serena = pkgs.callPackage ./pkgs/serena/package.nix {
+          inherit inputs;
+        };
       in
       {
         packages = {
@@ -38,6 +45,8 @@
           custom-icons = custom-icons;
           libre-menu-editor = libre-menu-editor;
           protonupd = protonupd;
+          context-mode = context-mode;
+          serena = serena;
         };
 
         apps = {
@@ -64,6 +73,16 @@
           protonupd = flake-utils.lib.mkApp {
             drv = protonupd;
             name = "protonupd";
+          };
+
+          context-mode = flake-utils.lib.mkApp {
+            drv = context-mode;
+            name = "context-mode";
+          };
+
+          serena = flake-utils.lib.mkApp {
+            drv = serena;
+            name = "serena";
           };
         };
       }
