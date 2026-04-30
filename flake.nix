@@ -26,6 +26,7 @@
 
         pkgs = import nixpkgs {
           inherit system overlays;
+          config.allowUnfree = true;
         };
 
         dethumb = pkgs.callPackage ./pkgs/dethumb/package.nix { };
