@@ -33,6 +33,7 @@
         custom-icons = pkgs.callPackage ./pkgs/custom-icons/package.nix { };
         libre-menu-editor = pkgs.callPackage ./pkgs/libre-menu-editor/package.nix { };
         protonupd = pkgs.callPackage ./pkgs/protonupd/package.nix { };
+        hytale-launcher = pkgs.callPackage ./pkgs/hytale-launcher/package.nix { };
         context-mode = pkgs.callPackage ./pkgs/context-mode/package.nix { };
         serena = pkgs.callPackage ./pkgs/serena/package.nix {
           inherit inputs;
@@ -46,6 +47,7 @@
           custom-icons = custom-icons;
           libre-menu-editor = libre-menu-editor;
           protonupd = protonupd;
+          hytale-launcher = hytale-launcher;
           context-mode = context-mode;
           serena = serena;
         };
@@ -74,6 +76,11 @@
           protonupd = flake-utils.lib.mkApp {
             drv = protonupd;
             name = "protonupd";
+          };
+
+          hytale-launcher = flake-utils.lib.mkApp {
+            drv = hytale-launcher;
+            name = "hytale-launcher";
           };
 
           context-mode = flake-utils.lib.mkApp {
