@@ -35,6 +35,7 @@
         protonupd = pkgs.callPackage ./pkgs/protonupd/package.nix { };
         hytale-launcher = pkgs.callPackage ./pkgs/hytale-launcher/package.nix { };
         context-mode = pkgs.callPackage ./pkgs/context-mode/package.nix { };
+        caveman = pkgs.callPackage ./pkgs/caveman/package.nix { };
         serena = pkgs.callPackage ./pkgs/serena/package.nix {
           inherit inputs;
         };
@@ -49,6 +50,7 @@
           protonupd = protonupd;
           hytale-launcher = hytale-launcher;
           context-mode = context-mode;
+          caveman = caveman;
           serena = serena;
         };
 
@@ -86,6 +88,11 @@
           context-mode = flake-utils.lib.mkApp {
             drv = context-mode;
             name = "context-mode";
+          };
+
+          caveman = flake-utils.lib.mkApp {
+            drv = caveman;
+            name = "caveman-shrink";
           };
 
           serena = flake-utils.lib.mkApp {
