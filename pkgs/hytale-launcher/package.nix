@@ -32,30 +32,33 @@ let
   hytale-launcher-fhs = buildFHSEnv {
     name = "hytale-launcher";
 
-    targetPkgs = pkgs: runtimeDeps ++ (with pkgs; [
-      # Additional runtime deps
-      libx11
-      libxcursor
-      libxrandr
-      libxi
-      libxcb
-      libxkbcommon
-      mesa
-      vulkan-loader
-      alsa-lib
-      pulseaudio
-      dbus
-      gsettings-desktop-schemas
-      glib
-      hicolor-icon-theme
-      adwaita-icon-theme
-      icu
-      libGL
-      # Tools for downloading and patching
-      curl
-      unzip
-      patchelf
-    ]);
+    targetPkgs =
+      pkgs:
+      runtimeDeps
+      ++ (with pkgs; [
+        # Additional runtime deps
+        libx11
+        libxcursor
+        libxrandr
+        libxi
+        libxcb
+        libxkbcommon
+        mesa
+        vulkan-loader
+        alsa-lib
+        pulseaudio
+        dbus
+        gsettings-desktop-schemas
+        glib
+        hicolor-icon-theme
+        adwaita-icon-theme
+        icu
+        libGL
+        # Tools for downloading and patching
+        curl
+        unzip
+        patchelf
+      ]);
 
     profile = ''
       export GDK_BACKEND=x11
@@ -118,34 +121,44 @@ let
     terminal = false;
     type = "Application";
     categories = [ "Game" ];
-    keywords = [ "hytale" "game" "launcher" ];
+    keywords = [
+      "hytale"
+      "game"
+      "launcher"
+    ];
   };
 
   # Fetch the Hytale icon
   # Fix for Issue #3: Use favicon.png as favicon.ico is now 404
   hytaleIcon = fetchurl {
-    url = "https://hytale.com/images/favicon.png";
-    hash = "sha256-eniMb/wct+vjtzXF2z8Z1XPBmwabjV8RCDyd8J1QLT0=";
+    url = "https://cdn2.steamgriddb.com/icon/f9189ab8a3d3920fa3cee4bc216d09a6/32/256x256.png";
+    hash = "sha256-7y/z8cEQl7B6owm84qE1tn+b0VFm3h5G6b3WDsPIWag=";
   };
 
   # Convert icon to png for better compatibility
-  hytaleIconPng = runCommand "hytale-launcher-icon" {
-    nativeBuildInputs = [ imagemagick ];
-  } ''
-    mkdir -p $out
-    # Extract the largest icon from the source and convert to png
-    convert ${hytaleIcon} -thumbnail 256x256 -alpha on -background none -flatten $out/hytale-launcher.png
-  '';
+  hytaleIconPng =
+    runCommand "hytale-launcher-icon"
+      {
+        nativeBuildInputs = [ imagemagick ];
+      }
+      ''
+        mkdir -p $out
+        # Extract the largest icon from the source and convert to png
+        convert ${hytaleIcon} -thumbnail 256x256 -alpha on -background none -flatten $out/hytale-launcher.png
+      '';
 
   meta = hytale-launcher-fhs.meta;
 in
 symlinkJoin {
   name = "hytale-launcher";
-  paths = [ hytale-launcher-fhs desktopItem ];
+  paths = [
+    hytale-launcher-fhs
+    desktopItem
+  ];
   postBuild = ''
     mkdir -p $out/share/icons/hicolor/256x256/apps
     cp ${hytaleIconPng}/hytale-launcher.png $out/share/icons/hicolor/256x256/apps/hytale-launcher.png
-    
+
     mkdir -p $out/share/pixmaps
     cp ${hytaleIconPng}/hytale-launcher.png $out/share/pixmaps/hytale-launcher.png
   '';
