@@ -13,13 +13,13 @@
 let
   nodeModules = stdenv.mkDerivation rec {
     pname = "context-mode-node-modules";
-    version = "1.0.103";
+    version = "1.0.111";
 
     src = fetchFromGitHub {
       owner = "mksglu";
       repo = "context-mode";
       rev = "v${version}";
-      hash = "sha256-Yv0rQITaESPqcxCB73NNynFpQkkFB0qTx4aTvsE9/xE=";
+      hash = "sha256-mj6SY5o1Kcie2NRullBAxKKWU10b0TVZ/Y19DfOrUrs=";
     };
 
     nativeBuildInputs = [
@@ -55,13 +55,13 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "context-mode";
-  version = "1.0.103";
+  version = "1.0.111";
 
   src = fetchFromGitHub {
     owner = "mksglu";
     repo = "context-mode";
     rev = "v${version}";
-    hash = "sha256-Yv0rQITaESPqcxCB73NNynFpQkkFB0qTx4aTvsE9/xE=";
+    hash = "sha256-mj6SY5o1Kcie2NRullBAxKKWU10b0TVZ/Y19DfOrUrs=";
   };
 
   nativeBuildInputs = [
@@ -118,10 +118,12 @@ stdenv.mkDerivation rec {
 
     makeWrapper ${nodejs_22}/bin/node "$out/bin/context-mode" \
       --add-flags "$out/lib/context-mode/cli.bundle.mjs" \
-      --prefix PATH : ${lib.makeBinPath [
-        bun
-        nodejs_22
-      ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          bun
+          nodejs_22
+        ]
+      }
 
     runHook postInstall
   '';
