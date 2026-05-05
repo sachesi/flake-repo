@@ -25,11 +25,11 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   dontBuild = true;
-  dontWrapGApps = true;
 
   nativeBuildInputs = with pkgs; [
     makeWrapper
     wrapGAppsHook4
+    gobject-introspection
   ];
 
   buildInputs = with pkgs; [
@@ -38,7 +38,9 @@ pkgs.stdenv.mkDerivation rec {
     libadwaita
     glib
     gdk-pixbuf
-    gobject-introspection
+    librsvg
+    hicolor-icon-theme
+    adwaita-icon-theme
     xdg-utils
   ];
 
@@ -55,14 +57,6 @@ pkgs.stdenv.mkDerivation rec {
       --add-flags "$out/share/${appName}/main.py" \
       --set PYTHONPATH "$out/share/${appName}:${python}/${python.sitePackages}" \
       --prefix PATH : "${lib.makeBinPath [ pkgs.xdg-utils ]}" \
-      --prefix GI_TYPELIB_PATH : "${
-        lib.makeSearchPath "lib/girepository-1.0" [
-          pkgs.gtk4
-          pkgs.libadwaita
-          pkgs.glib
-          pkgs.gdk-pixbuf
-        ]
-      }" \
       "''${gappsWrapperArgs[@]}"
 
     runHook postInstall
