@@ -36,6 +36,7 @@
         hytale-launcher = pkgs.callPackage ./pkgs/hytale-launcher/package.nix { };
         context-mode = pkgs.callPackage ./pkgs/context-mode/package.nix { };
         caveman = pkgs.callPackage ./pkgs/caveman/package.nix { };
+        gemini-cli = pkgs.callPackage ./pkgs/gemini-cli/package.nix { };
         serena = pkgs.callPackage ./pkgs/serena/package.nix {
           inherit inputs;
         };
@@ -51,6 +52,7 @@
           hytale-launcher = hytale-launcher;
           context-mode = context-mode;
           caveman = caveman;
+          gemini-cli = gemini-cli;
           serena = serena;
         };
 
@@ -93,6 +95,11 @@
           caveman = flake-utils.lib.mkApp {
             drv = caveman;
             name = "caveman-shrink";
+          };
+
+          gemini-cli = flake-utils.lib.mkApp {
+            drv = gemini-cli;
+            name = "gemini";
           };
 
           serena = flake-utils.lib.mkApp {
