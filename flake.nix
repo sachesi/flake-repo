@@ -17,7 +17,7 @@
       rust-overlay,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
+    (flake-utils.lib.eachDefaultSystem (
       system:
       let
         overlays = [
@@ -108,5 +108,11 @@
           };
         };
       }
-    );
+    )) // {
+      # NixOS modules
+      nixosModules = {
+        secureboot = import ./modules/secure-boot;
+        default = self.nixosModules.secureboot;
+      };
+    };
 }
